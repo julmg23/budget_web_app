@@ -26,25 +26,28 @@
       </form>
     </nav>
 
-    <!-- Title Card -->
-    <!-- Color Scheme  8ecae6 219ebc 023047 ffb703 fb8500-->
-
-    <div class="card text-white" style="background-color:#219ebc; border-radius:0 0 2rem 2rem;">
-        <div class="card-body">
-            <h6 class="card-subtitle">Total Balance</h6>
-            <h1 class="card-title">$17,523.67</h1>
-            &nbspPast 90 Days: +$1234.56
+    <form>
+        <div class="form-row m-3">
+            <div class="col">
+                <input type="text" class="form-control" name="date" placeholder="MM/DD/YYYY">
+            </div>
+            <h4>$</h4>
+            <div class="col-auto">
+                <input type="text" class="form-control" name="price" placeholder="Amount">
+            </div>
         </div>
-    </div>
-
-    <!-- Income and Expenses Toggle Button -->
-
-    <div class="d-grid gap-2 d-md-block ">
-        <button type="button" class="btn btn-primary rounded-pill active my-3" data-bs-toggle="button" autocomplete="off" aria-pressed="true">Income</button>
-        <button type="button" class="btn btn-primary rounded-pill justify-content-end" data-bs-toggle="button" autocomplete="off" aria-pressed="false">Expenses</button>
-    </div>
-
-
+        <div class="form-row m-3 ">
+            <div class="col-auto">
+                <select class="form-control" name="type" id="exampleFormControlSelect1">
+                    <option>Income</option>
+                    <option>Expense</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn text-white" style="background-color:#fb8500;">Add Transaction</button>
+            </div>
+        </div>
+    </form>
 
 
 </body>
