@@ -26,7 +26,9 @@
       </form>
     </nav>
 
-    <form>
+    <!-- Transaction Form -->
+
+    <form action="/transactions" method="post">
         <div class="form-row m-3">
             <div class="col">
                 <input type="text" class="form-control" name="date" placeholder="MM/DD/YYYY">
@@ -49,6 +51,26 @@
         </div>
     </form>
 
+    <!-- Transaction Table -->
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Price</th>
+          <th scope="col">Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for transaction in all_transactions %}
+        <tr>
+            <td> {{ transaction[0] }}</td>
+            <td> {{ transaction[1] }}</td>
+            <td> {{ transaction[2] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
 </body>
 
