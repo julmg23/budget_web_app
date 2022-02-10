@@ -14,7 +14,24 @@ def usd(value):
 @app.route("/")
 def index():
     """Show application page"""
-    return render_template("index.html")
+    # Configure sqlite3 Database
+    con = sqlite3.connect('transactions.db')
+
+    # This returns the single values from a row, allowing them to be added later
+    con.row_factory = lambda cursor, row: row[0]
+    cur = con.cursor()
+
+    # Retrieve Income and Expenses
+    income = cur.execute("SELECT price FROM transactions WHERE type = 'Income'").fetchall()
+    expenses = cur.execute("SELECT price FROM transactions WHERE type = 'Expense'").fetchall()
+
+    sum_income = sum(income)
+    sum_expenses = sum(expenses)
+
+    # Net worth is income minus expenses
+    net_worth = sum_income - sum_expenses
+
+    return render_template("index.html", net_worth=net_worth, usd=usd)
 
 
 @app.route("/transactions", methods=["GET", "POST"])
@@ -26,7 +43,7 @@ def transactions():
     cur = con.cursor()
 
     # Retrieve all transactions and display on page
-    all_transactions = cur.execute("SELECT date, price, type FROM transactions ORDER BY date ASC")
+    all_transactions = cur.execute("SELECT date, price, type FROM transactions ORDER BY date DESC")
 
     if request.method == "POST":
         # Get date
@@ -45,7 +62,7 @@ def transactions():
 
         return redirect("/transactions")
 
-    return render_template("transactions.html", all_transactions=all_transactions)
+    return render_template("transactions.html", all_transactions=all_transactions, usd=usd)
 
 
 if __name__ == "__main__":

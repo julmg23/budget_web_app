@@ -65,7 +65,7 @@
         {% for transaction in all_transactions %}
         <tr>
             <td> {{ transaction[0] }}</td>
-            <td> {{ transaction[1] }}</td>
+            <td> {{ usd(transaction[1]) }}</td>
             <td> {{ transaction[2] }}</td>
         </tr>
         {% endfor %}
