@@ -1,5 +1,6 @@
 from flask import Flask, flash, redirect, render_template, request
 import sqlite3
+import datetime
 
 # Configure application
 app = Flask(__name__)
@@ -31,7 +32,20 @@ def index():
     # Net worth is income minus expenses
     net_worth = sum_income - sum_expenses
 
-    return render_template("index.html", net_worth=net_worth, usd=usd)
+    # Retrieve past 30 days expenses and income
+    # Calculate the last months change
+    past_month_expenses = cur.execute("SELECT price FROM transactions WHERE date < DateTime('Now', 'LocalTime', '-30 Day') AND type = 'Expense'").fetchall()
+    past_month_income = cur.execute("SELECT price FROM transactions WHERE date < DateTime('Now', 'LocalTime', '-30 Day') AND type = 'Income'").fetchall()
+
+    # Format the past month change
+    past_month_change = sum(past_month_income) - sum(past_month_expenses)
+    if past_month_change >= 0:
+        past_month_change = '+{}'.format(usd(past_month_change))
+    else:
+        past_month_change = '-{}'.format(usd(past_month_change))
+
+
+    return render_template("index.html", net_worth=net_worth, usd=usd, past_month_change=past_month_change)
 
 
 @app.route("/transactions", methods=["GET", "POST"])
